@@ -61,6 +61,12 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.MAIN_SCREEN_ROUTE) {
                             MainScreen()
                         }
+                        composable(Routes.DETAILS_PROJECTS_SCREEN) {
+
+                        }
+                        composable(Routes.DETAILS_EMPLOYEES_SCREEN) {
+
+                        }
                     }
                 }
             }

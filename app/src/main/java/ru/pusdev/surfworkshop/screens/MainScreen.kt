@@ -1,34 +1,27 @@
 package ru.pusdev.surfworkshop.screens
 
-import android.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 import ru.pusdev.surfworkshop.components.custom.appbar.MainAppBar
-import ru.pusdev.surfworkshop.navigation.Routes
-import ru.pusdev.surfworkshop.ui.theme.CINDER_22292E
+import ru.pusdev.surfworkshop.screens.about.AboutAppTab
+import ru.pusdev.surfworkshop.screens.projects.ProjectsTab
 import ru.pusdev.surfworkshop.ui.theme.SLATE_GRAY_7C7E92
 import ru.pusdev.surfworkshop.ui.theme.WorkshopTheme
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,7 +30,7 @@ fun MainScreen() {
         MainAppBar {
             //TODO обработка нажатий по кнопке поиска
         }
-        val pagerState = rememberPagerState(initialPage = 3)
+        val pagerState = rememberPagerState()
         Tabs(pagerState = pagerState)
         TabsContent(pagerState = pagerState)
     }
@@ -48,18 +41,35 @@ fun MainScreen() {
 fun Tabs(pagerState: PagerState) {
 
     val tabs = listOf(
-        "Сотрудники",
-        "Проекты",
-        "О приложении",
+        "СОТРУДНИКИ",
+        "ПРОЕКТЫ",
+        "О ПРИЛОЖЕНИИ",
     )
     val scope = rememberCoroutineScope()
-    TabRow(
+    ScrollableTabRow(
         selectedTabIndex = pagerState.currentPage,
-        indicator = { tabPositions ->
-            //
+        edgePadding = 20.dp,
+        indicator = @Composable { tabPositions ->
+            Box(
+                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+            ) {
+                Box(
+                    Modifier
+                        .width(24.dp)
+                        .height(3.dp)
+                        .background(
+                            WorkshopTheme.defaultColors.primary,
+                            shape = WorkshopTheme.defaultShapes.small
+                        )
+                        .align(Alignment.BottomCenter)
+                )
+            }
         },
         divider = { },
-        backgroundColor = WorkshopTheme.defaultColors.background
+        backgroundColor = WorkshopTheme.defaultColors.background,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
     ) {
         tabs.forEachIndexed { index, _ ->
             val isSelected = pagerState.currentPage == index
@@ -68,8 +78,10 @@ fun Tabs(pagerState: PagerState) {
                     Text(
                         text = tabs[index],
                         style = WorkshopTheme.typography.body1.copy(
-                            color = if (isSelected) WorkshopTheme.defaultColors.primary else SLATE_GRAY_7C7E92
+                            color = if (isSelected) WorkshopTheme.defaultColors.primary else SLATE_GRAY_7C7E92,
+                            fontWeight = FontWeight.Bold
                         ),
+                        textAlign = TextAlign.Center
                     )
                 },
                 selected = pagerState.currentPage == index,
@@ -80,10 +92,7 @@ fun Tabs(pagerState: PagerState) {
                 },
             )
         }
-
     }
-
-
 }
 
 
