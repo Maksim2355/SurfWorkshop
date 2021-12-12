@@ -1,4 +1,4 @@
-package ru.pusdev.surfworkshop.data
+package ru.pusdev.surfworkshop.data.model
 
 data class Employees(
     val id: String,
