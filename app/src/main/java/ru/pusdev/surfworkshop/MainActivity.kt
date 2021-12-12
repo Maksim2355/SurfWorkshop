@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.pusdev.surfworkshop.navigation.Routes
 import ru.pusdev.surfworkshop.screens.MainScreen
 import ru.pusdev.surfworkshop.screens.SplashScreen
@@ -24,6 +25,7 @@ import ru.pusdev.surfworkshop.ui.theme.DarkColorPalette
 import ru.pusdev.surfworkshop.ui.theme.LightColorPalette
 import ru.pusdev.surfworkshop.ui.theme.SurfWorkshopTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
