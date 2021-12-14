@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,9 +31,9 @@ fun ErrorScreenState(text: String = "Ошибка загрузки данных"
         Button(
             onClick = { onReplayClickAction.invoke() },
             shape = WorkshopTheme.defaultShapes.large,
-            modifier = Modifier.background(color = WorkshopTheme.defaultColors.primary)
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
         ) {
-
+            Text(text = "Повторить")
         }
     }
 }

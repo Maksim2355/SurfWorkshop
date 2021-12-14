@@ -1,19 +1,18 @@
 package ru.pusdev.surfworkshop.screens.projects
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.delay
 import ru.pusdev.surfworkshop.components.custom.avatars.AvatarRow
 import ru.pusdev.surfworkshop.components.placeholder.ErrorScreenState
 import ru.pusdev.surfworkshop.components.placeholder.LoadingScreenState
@@ -23,10 +22,11 @@ import ru.pusdev.surfworkshop.ui.theme.WorkshopTheme
 @Composable
 fun ProjectsTab(projectsViewModel: ProjectsViewModel = hiltViewModel()) {
     LaunchedEffect(key1 = Unit) {
-
+        delay(3000)
+        projectsViewModel.obtainEvent(ProjectsViewState.Action.EnterScreen)
     }
 
-    val viewState = projectsViewModel.projectsLiveData.observeAsState()
+    val viewState = projectsViewModel.projects.collectAsState()
 
     when (viewState.value) {
         is ProjectsViewState.ErrorState -> ErrorScreenState {
@@ -43,8 +43,8 @@ fun ProjectsTab(projectsViewModel: ProjectsViewModel = hiltViewModel()) {
 @Composable
 fun ProjectsList(projects: List<Project>, onProjectClick: (Project) -> Unit) {
     LazyColumn {
-        items(projects.size) {
-
+        items(projects.size) { index ->
+            ProjectCard(project = projects[index], onProjectClick = {})
         }
     }
 }
@@ -53,6 +53,7 @@ fun ProjectsList(projects: List<Project>, onProjectClick: (Project) -> Unit) {
 fun ProjectCard(project: Project, onProjectClick: (Project) -> Unit) {
     Card(
         modifier = Modifier
+            .clickable { onProjectClick(project) }
             .padding(
                 horizontal = 20.dp,
                 vertical = 16.dp
@@ -62,8 +63,11 @@ fun ProjectCard(project: Project, onProjectClick: (Project) -> Unit) {
         backgroundColor = WorkshopTheme.defaultColors.surface,
         shape = WorkshopTheme.defaultShapes.large
     ) {
-        Column {
-            Row() {
+        Column(
+            modifier = Modifier.padding(all = 20.dp)
+        ) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+
                 AvatarRow(urls = project.team.employees.map { it.photoUrl })
             }
             Text(

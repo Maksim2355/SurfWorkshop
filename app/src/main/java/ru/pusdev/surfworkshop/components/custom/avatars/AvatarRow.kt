@@ -1,5 +1,6 @@
 package ru.pusdev.surfworkshop.components.custom.avatars
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -14,13 +15,13 @@ fun AvatarRow(
     radius: Dp = 34.dp,
     strokeWidth: Dp = 2.dp
 ) {
-    Row() {
-        urls.forEach {
+    Box {
+        urls.forEachIndexed() { index, url ->
             Avatar(
-                photoUrl = it,
+                photoUrl = url,
                 radius = radius,
                 strokeWidth = strokeWidth,
-                modifier = Modifier.padding(horizontal = -collapsingWidth)
+                modifier = Modifier.padding(start = (radius - collapsingWidth) * index)
             )
         }
     }
